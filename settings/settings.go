@@ -66,6 +66,11 @@ type DiskSettings struct {
 	HostDeviceID   string
 	Path           string
 	FileSystemType disk.FileSystemType
+	// properties for iscsi initiator
+	Initiatorname 	string
+	Username	string
+	Password        string
+	Ipaddress       string
 }
 
 type VM struct {
@@ -92,8 +97,17 @@ func (s Settings) PersistentDiskSettings(diskID string) (DiskSettings, bool) {
 				if lun, ok := hashSettings["lun"]; ok {
 					diskSettings.Lun = lun.(string)
 				}
-				if hostDeviceID, ok := hashSettings["host_device_id"]; ok {
-					diskSettings.HostDeviceID = hostDeviceID.(string)
+				if initiatorName, ok := hashSettings["initiatorName"]; ok {
+					diskSettings.Initiatorname = initiatorName.(string)
+				}
+				if username, ok := hashSettings["username"]; ok {
+					diskSettings.Username = username.(string)
+				}
+				if password, ok := hashSettings["password"]; ok {
+					diskSettings.Password = password.(string)
+				}
+				if ipAddress, ok := hashSettings["ipAddress"]; ok {
+					diskSettings.Ipaddress = ipAddress.(string)
 				}
 			} else {
 				// Old CPIs return disk path (string) or volume id (string) as disk settings
